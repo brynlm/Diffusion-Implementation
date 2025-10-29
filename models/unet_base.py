@@ -4,7 +4,7 @@ from .res_block import ResBlock, get_time_embedding
 
 
 class UNet(nn.Module):
-    def __init__(self, in_channels, out_channels, t_emb_dim, num_heads, num_down_blocks, num_mid_blocks, use_context=False):
+    def __init__(self, in_channels, out_channels, t_emb_dim, num_heads, num_norm_groups, num_down_blocks, num_mid_blocks, use_context=False):
         super().__init__()
         self.t_emb_dim = t_emb_dim
         self.in_channels = in_channels    
@@ -17,7 +17,7 @@ class UNet(nn.Module):
         self.down_blocks = nn.ModuleList([
             ResBlock(in_channels if i==0 else self.out_channels[i-1], 
                      num_channels, 
-                     1, 
+                     num_norm_groups, 
                      num_heads, 
                      self_attn=True,
                      down_sample=False if i==0 else True,
@@ -28,7 +28,7 @@ class UNet(nn.Module):
         self.mid_blocks = nn.ModuleList([
             ResBlock(self.out_channels[-1], 
                      self.out_channels[-1], 
-                     2, 
+                     num_norm_groups, 
                      num_heads, 
                      self_attn=True,
                      down_sample=True if i==0 else False,
@@ -39,7 +39,7 @@ class UNet(nn.Module):
         self.up_blocks = nn.ModuleList([
             ResBlock(num_channels*2, 
                      num_channels,
-                     2, 
+                     num_norm_groups, 
                      num_heads, 
                      self_attn=True,
                      up_sample=True
@@ -48,7 +48,7 @@ class UNet(nn.Module):
         ])
 
         self.output_conv = nn.Sequential(
-            nn.GroupNorm(2, self.out_channels[0]),
+            nn.GroupNorm(num_norm_groups, self.out_channels[0]),
             nn.SiLU(),
             nn.Conv2d(self.out_channels[0], in_channels, kernel_size=3, padding=1)
         )
