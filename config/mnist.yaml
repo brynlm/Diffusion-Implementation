@@ -1,0 +1,38 @@
+diffusion_params:
+  beta_start : 0.0001
+  beta_end : 0.02
+  num_timesteps : 500
+
+dataset_params:
+  im_path:
+  module_name: 'datasets.mnist_diffusion_dataset'
+  name: 'MnistDiffusionDataset'
+
+unet_params:
+  in_channels: 3
+  out_channels: [128, 256]
+  t_emb_dim: 512
+  num_heads: 4
+  num_down_blocks: 2
+  num_mid_blocks: 3
+  use_context: False
+
+training_params:
+  use_checkpoint:
+  loss: 'MSELoss'
+  scheduler: 'LinearLR'
+  scheduler_params:
+    start_factor: 0.05
+    total_iters: 8000
+  optimizer: 'Adam'
+  opt_params:
+    lr: 0.0003
+    weight_decay: 0
+  batch_size: 64
+  num_steps: 1000
+  epochs: 5
+  save_checkpoint: './models/weights/ckpt.pt'
+
+
+
+

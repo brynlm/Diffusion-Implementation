@@ -1,0 +1,21 @@
+# Ignore all image files
+*.jpg
+*.png
+*.jpeg
+
+# Ignore system files
+.DS_Store
+__pycache__
+
+# Ignore dataset files
+*.csv
+*.json
+
+# Ignore checkpoints
+*.pt
+
+# Ignore notebooks
+*.ipynb
+
+# Ignore everything inside data folder
+data/**/
