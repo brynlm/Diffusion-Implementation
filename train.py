@@ -26,7 +26,7 @@ def train(args):
     my_dataset_module = import_module(dataset_params['module_name'])
     MyDatasetClass = getattr(my_dataset_module, dataset_params['name'])
     dataset = MyDatasetClass(diffusion_params['beta_start'], diffusion_params['beta_end'], diffusion_params['num_timesteps'])
-    dataloader = DataLoader(dataset, shuffle=True, batch_size=training_params['batch_size'])
+    dataloader = DataLoader(dataset, shuffle=True, batch_size=training_params['batch_size'], num_workers=2, pin_memory=True)
 
     # Instantiate model, optimizer and scheduler #
     model = UNet(**unet_params)
