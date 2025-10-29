@@ -18,7 +18,6 @@ unet_params:
   use_context: False
 
 training_params:
-  use_checkpoint:
   loss: 'MSELoss'
   scheduler: 'LinearLR'
   scheduler_params:
