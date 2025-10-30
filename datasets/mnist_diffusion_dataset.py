@@ -10,7 +10,7 @@ class MnistDiffusionDataset(ForwardDiffusionDataset):
                         v2.ToDtype(torch.float32, scale=True),
                         v2.RGB()
                     ])
-        data = torchvision.datasets.MNIST(root='./data', train=True, download=False)
+        data = torchvision.datasets.MNIST(root='./data', train=True, download=True)
         features = transform(data.data)
         features = (2*features) - 1
         self.targets = data.targets
