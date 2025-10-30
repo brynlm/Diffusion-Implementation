@@ -1,7 +1,7 @@
 import torch
 
-def train_loop(dataloader, model, loss_fn, opt, num_steps, sched=None):
-    device = 'mps' if torch.mps.is_available() else 'cpu'
+def train_loop(dataloader, model, loss_fn, opt, num_steps, sched=None, device=None):
+    device = 'cpu' if device is None else device
     model.to(device)
     model.train()
 

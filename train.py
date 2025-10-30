@@ -45,7 +45,7 @@ def train(args):
     # Train model #
     for epoch in range(1, training_params['epochs']+1):
         print(f"Starting epoch {epoch}")
-        losses = train_loop(dataloader, model, loss_fn, opt, training_params['num_steps'], sched)
+        losses = train_loop(dataloader, model, loss_fn, opt, training_params['num_steps'], sched, training_params['device'])
         
     # Save checkpoint #
     if training_params['save_checkpoint']:

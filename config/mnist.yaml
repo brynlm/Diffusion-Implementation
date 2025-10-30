@@ -19,6 +19,7 @@ unet_params:
   use_context: False
 
 training_params:
+  device: 'mps'
   loss: 'MSELoss'
   scheduler: 'LinearLR'
   scheduler_params:
