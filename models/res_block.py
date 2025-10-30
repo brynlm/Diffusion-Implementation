@@ -40,7 +40,7 @@ class ResBlock(nn.Module):
         self.up_sample = up_sample
 
         self.res1 = nn.Sequential(
-            nn.GroupNorm(num_norm_groups if num_norm_groups % in_channels == 0 else 1, in_channels),
+            nn.GroupNorm(num_norm_groups if in_channels % num_norm_groups == 0 else in_channels, in_channels),
             nn.SiLU(),
             nn.LazyConv2d(out_channels, kernel_size=3, padding=1)
         )
