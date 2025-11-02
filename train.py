@@ -36,7 +36,7 @@ def train(args):
         if training_params['scheduler'] else None
     
     if args.checkpoint_path:
-        checkpoint = torch.load(args.checkpoint_path)
+        checkpoint = torch.load(args.checkpoint_path, map_location=training_params['device'])
         model.load_state_dict(checkpoint['model'], assign=True)
         opt.load_state_dict(checkpoint['opt'])
         if sched is not None and hasattr(checkpoint, 'lr_scheduler'):
