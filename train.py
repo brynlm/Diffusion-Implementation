@@ -38,9 +38,9 @@ def train(args):
     if args.checkpoint_path:
         checkpoint = torch.load(args.checkpoint_path, map_location=training_params['device'])
         model.load_state_dict(checkpoint['model'], assign=True)
-        opt.load_state_dict(checkpoint['opt'])
         if sched is not None and hasattr(checkpoint, 'lr_scheduler'):
             sched.load_state_dict(checkpoint['lr_scheduler'])
+        opt.load_state_dict(checkpoint['opt'])    
 
     # Train model #
     for epoch in range(1, training_params['epochs']+1):
