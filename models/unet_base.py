@@ -15,7 +15,7 @@ class UNet(nn.Module):
         self.num_mid_blocks = num_mid_blocks
 
         self.down_blocks = nn.ModuleList([
-            ResBlock(in_channels if i==0 else self.out_channels[i-1], 
+            ResBlock(self.out_channels[0] if i==0 else self.out_channels[i-1],#in_channels if i==0 else self.out_channels[i-1], 
                      num_channels, 
                      num_norm_groups, 
                      num_heads, 
@@ -47,6 +47,13 @@ class UNet(nn.Module):
             for num_channels in reversed(self.out_channels)
         ])
 
+        self.input_conv = nn.Conv2d(
+            in_channels, 
+            out_channels=self.out_channels[0], 
+            kernel_size=3, 
+            padding=1
+        )
+
         self.output_conv = nn.Sequential(
             nn.GroupNorm(num_norm_groups, self.out_channels[0]),
             nn.SiLU(),
@@ -57,7 +64,7 @@ class UNet(nn.Module):
         t_emb = get_time_embedding(t, self.t_emb_dim)
         down_outputs = []
 
-        out = x
+        out = self.input_conv(x)
         for down_block in self.down_blocks:
             out = down_block(out, t_emb, context=context)
             down_outputs.append(out)
