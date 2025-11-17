@@ -12,6 +12,6 @@ class MnistDiffusionDataset(ForwardDiffusionDataset):
                     ])
         data = torchvision.datasets.MNIST(root='./data', train=True, download=True)
         features = transform(data.data)
-        features = (2*features) - 1
+        # features = (2*features) - 1
         self.targets = data.targets
         super().__init__(features, beta0, betaT, num_timesteps)
