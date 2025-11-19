@@ -1,5 +1,5 @@
 diffusion_params:
-  beta_start : 0.0001
+  beta_start : 1.0e-4
   beta_end : 0.02
   num_timesteps : 500
 
@@ -13,7 +13,7 @@ unet_params:
   out_channels: [128, 256]
   t_emb_dim: 512
   num_heads: 4
-  num_norm_groups: 32
+  num_norm_groups: 8
   num_down_blocks: 2
   num_mid_blocks: 3
   use_context: False
@@ -23,16 +23,17 @@ training_params:
   loss: 'MSELoss'
   scheduler: 'LinearLR'
   scheduler_params:
-    start_factor: 0.05
-    total_iters: 8000
+    start_factor: 1 #0.05
+    end_factor: 0.01 # 1
+    total_iters: 5000
   optimizer: 'Adam'
   opt_params:
     lr: 0.0003
     weight_decay: 0
   batch_size: 64
   num_steps: 1000
-  epochs: 1
-  save_checkpoint: './models/weights/ckpt.pt'
+  epochs: 10
+  save_checkpoint: './models/weights/5klinwu-2d-3m-8n-5klincd.pt'
 
 
 

@@ -35,10 +35,11 @@ def train(args):
     sched = getattr(torch.optim.lr_scheduler, training_params['scheduler'])(opt, **training_params['scheduler_params']) \
         if training_params['scheduler'] else None
     
+    # Load checkpoints #
     if args.checkpoint_path:
         checkpoint = torch.load(args.checkpoint_path, map_location=training_params['device'])
         model.load_state_dict(checkpoint['model'], assign=True)
-        if sched is not None and hasattr(checkpoint, 'lr_scheduler'):
+        if all([not args.use_config_sched, sched is not None, hasattr(checkpoint, 'lr_scheduler')]):
             sched.load_state_dict(checkpoint['lr_scheduler'])
         opt.load_state_dict(checkpoint['opt'])    
 
@@ -61,7 +62,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Arguments for vq vae training')
     parser.add_argument('--config', dest='config_path',
                         default='config/mnist.yaml', type=str)
-    parser.add_argument('--use-checkpoint', dest='checkpoint_path',
+    parser.add_argument('--checkpoint', dest='checkpoint_path',
                         default=None, type=str)
+    parser.add_argument('--use-config-sched', dest='use_config_sched',
+                        action='store_true')
     args = parser.parse_args()
     train(args)
