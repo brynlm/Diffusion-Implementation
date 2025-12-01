@@ -9,7 +9,7 @@ This repository implements:
 
 ## Training
 * Run ```python -m train --config config/mnist.yaml``` in your terminal. Refer config/mnist.yaml file as an example of how to customize your own config.
-* Can optionally add ```--use-checkpoint path_to_checkpoint.pt``` to resume a model's training from a checkpoint. The .pt file is expected to hold state dictionaries of a torch model and optimizer, and also potentially a scheduler. 
+* Can optionally add ```--checkpoint path_to_checkpoint.pt``` to resume a model's training from a checkpoint. The .pt file is expected to hold state dictionaries of a torch model and optimizer, and also potentially a scheduler. 
 
 ## Sample of MNIST Reverse Diffusion (Not fully converged)
 * Note: I converted MNIST images from grayscale to RGB before training, the reason being that a later goal of mine is to experiment with using classifier free guidance from a dataset of RGB texture images, to see if I can transfer the texture "style" to the MNIST images.
